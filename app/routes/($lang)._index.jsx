@@ -1,10 +1,10 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
-import {ProductSwimlane, FeaturedCollections, Hero} from '~/components';
+import {ProductSwimlane, FeaturedCollections} from '~/components';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
-import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
+import Carousel from '~/components/Carousel';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 import {routeHeaders, CACHE_SHORT} from '~/data/cache';
 
@@ -22,7 +22,7 @@ export async function loader({params, context}) {
     throw new Response(null, {status: 404});
   }
 
-  const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
+  const {shop} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
     variables: {handle: 'freestyle'},
   });
 
@@ -31,7 +31,6 @@ export async function loader({params, context}) {
   return defer(
     {
       shop,
-      primaryHero: hero,
       // These different queries are separated to illustrate how 3rd party content
       // fetching can be optimized for both above and below the fold.
       featuredProducts: context.storefront.query(
@@ -48,13 +47,6 @@ export async function loader({params, context}) {
           },
         },
       ),
-      secondaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-        variables: {
-          handle: 'backcountry',
-          country,
-          language,
-        },
-      }),
       featuredCollections: context.storefront.query(
         FEATURED_COLLECTIONS_QUERY,
         {
@@ -64,13 +56,6 @@ export async function loader({params, context}) {
           },
         },
       ),
-      tertiaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-        variables: {
-          handle: 'winter-2022',
-          country,
-          language,
-        },
-      }),
       analytics: {
         pageType: AnalyticsPageType.home,
       },
@@ -85,22 +70,13 @@ export async function loader({params, context}) {
 }
 
 export default function Homepage() {
-  const {
-    primaryHero,
-    secondaryHero,
-    tertiaryHero,
-    featuredCollections,
-    featuredProducts,
-  } = useLoaderData();
+  const {featuredCollections, featuredProducts} = useLoaderData();
 
   // TODO: skeletons vs placeholders
-  const skeletons = getHeroPlaceholder([{}, {}, {}]);
 
   return (
     <>
-      {primaryHero && (
-        <Hero {...primaryHero} height="full" top loading="eager" />
-      )}
+      <Carousel />
 
       {featuredProducts && (
         <Suspense>
@@ -118,18 +94,6 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
-
-      {secondaryHero && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={secondaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )}
-
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
@@ -141,17 +105,6 @@ export default function Homepage() {
                   title="Collections"
                 />
               );
-            }}
-          </Await>
-        </Suspense>
-      )}
-
-      {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
             }}
           </Await>
         </Suspense>
@@ -199,16 +152,6 @@ const HOMEPAGE_SEO_QUERY = `#graphql
     shop {
       name
       description
-    }
-  }
-`;
-
-const COLLECTION_HERO_QUERY = `#graphql
-  ${COLLECTION_CONTENT_FRAGMENT}
-  query collectionContent($handle: String, $country: CountryCode, $language: LanguageCode)
-  @inContext(country: $country, language: $language) {
-    hero: collection(handle: $handle) {
-      ...CollectionContent
     }
   }
 `;

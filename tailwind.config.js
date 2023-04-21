@@ -12,7 +12,10 @@ function withOpacityValue(variable) {
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./app/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx}',
+    './node_modules/flowbite-react/**/*.js',
+  ],
   theme: {
     extend: {
       colors: {
@@ -69,5 +72,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin, typographyPlugin],
+  plugins: [formsPlugin, typographyPlugin, require('flowbite/plugin')],
 };
