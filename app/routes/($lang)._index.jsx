@@ -7,6 +7,7 @@ import {seoPayload} from '~/lib/seo.server';
 import Carousel from '~/components/Carousel';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 import {routeHeaders, CACHE_SHORT} from '~/data/cache';
+import Logo from '../components/Logo';
 
 export const headers = routeHeaders;
 
@@ -109,6 +110,7 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
+      <Logo />
     </>
   );
 }
