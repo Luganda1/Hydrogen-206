@@ -1,9 +1,9 @@
 import {Splide, SplideSlide} from '@splidejs/react-splide';
-import pexels1 from '../../public/pexels1.jpeg';
-import pexels2 from '../../public/pexels2.jpeg';
-import pexels3 from '../../public/pexels3.jpeg';
-import pexels4 from '../../public/pexels4.jpeg';
-import pexels5 from '../../public/pexels5.jpeg';
+import assassin from '../../public/assassin.jpeg';
+import callofduty from '../../public/callofduty.jpeg';
+import worrior from '../../public/worrior.jpeg';
+import gaming1 from '../../public/gaming1.jpeg';
+import joystick from '../../public/joystick.jpeg';
 
 function Carousel() {
   return (
@@ -22,19 +22,19 @@ function Carousel() {
         aria-label="Incomparating Slide into Remix"
       >
         <SplideSlide>
-          <img src={pexels1} alt="Image 2" />
+          <img src={assassin} alt="Image 2" />
         </SplideSlide>
         <SplideSlide>
-          <img src={pexels5} alt="Image 2" />
+          <img src={joystick} alt="Image 2" />
         </SplideSlide>
         <SplideSlide>
-          <img src={pexels2} alt="Image 2" />
+          <img src={callofduty} alt="Image 2" />
         </SplideSlide>
         <SplideSlide>
-          <img src={pexels3} alt="Image 3" />
+          <img src={worrior} alt="Image 3" />
         </SplideSlide>
         <SplideSlide>
-          <img src={pexels4} alt="Image 3" />
+          <img src={gaming1} alt="Image 3" />
         </SplideSlide>
 
         <div className="custom-wrapper">

@@ -141,8 +141,8 @@ export default function Logo() {
               <img
                 height="50%"
                 width="150px"
-                src="magento.svg"
-                alt="Magento logo"
+                src="blueacorn.svg"
+                alt="blue Acorn svg logo"
               />
             </MouseParallaxChild>
           </MouseParallaxContainer>
