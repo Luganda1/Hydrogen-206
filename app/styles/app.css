@@ -134,6 +134,17 @@ shop-pay-button {
   .swimlane {
     @apply grid w-full snap-x snap-mandatory scroll-px-6 grid-flow-col justify-start gap-4 overflow-x-scroll px-6 pb-4;
   }
+  .player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+  }
+  
+  .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .8;
+  }
 }
 
 @layer utilities {

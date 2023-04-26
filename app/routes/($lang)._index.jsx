@@ -8,6 +8,7 @@ import Carousel from '~/components/Carousel';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 import {routeHeaders, CACHE_SHORT} from '~/data/cache';
 import Logo from '../components/Logo';
+import HeroVideo from '../components/HeroVideo';
 
 export const headers = routeHeaders;
 
@@ -95,6 +96,7 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
+      <HeroVideo />
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
@@ -110,6 +112,7 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
+
       <Logo />
     </>
   );
